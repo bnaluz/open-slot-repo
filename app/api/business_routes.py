@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db,Business
+from app.models import db,Business, Service
 
 business_routes = Blueprint('businesses', __name__)
 
@@ -97,3 +97,37 @@ def delete_business(id):
     db.session.commit()
 
     return jsonify({'message': "Business successfully deleted"}), 200
+
+
+##*ADDING SERVICE ROUTES
+@business_routes.route('/<int:id>/services', methods=['GET'])
+def get_business_services(id):
+    """QUERY FOR ALL SERVICES OF A BUSINESS"""
+    services = Service.query.filter_by(business_id=id).all()
+    if not services:
+        return jsonify({"message": "No services found."})
+    return jsonify([service.to_dict() for service in services]), 200
+ 
+@business_routes.route('/<int:id>/services', methods=['POST'])
+@login_required
+def add_new_service(id):
+    """ADDS A SERVICE TO A BUSINESS"""
+    data = request.get_json()
+    business = Business.query.get(id)
+
+    if not business:
+        return jsonify({'message': "Business couldn't be found"}), 404
+
+    if business.owner_id != current_user.id:
+        return jsonify({'message': 'Forbidden'}), 403
+
+    new_service = Service(
+        name=data.get('name'),
+        description=data.get('description'),
+        duration=data.get('duration'),
+        business_id=id
+    )
+    db.session.add(new_service)
+    db.session.commit()
+
+    return jsonify(new_service.to_dict()), 201

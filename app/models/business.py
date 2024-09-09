@@ -18,6 +18,7 @@ class Business(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
+    services = db.relationship('Service', back_populates='business', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
