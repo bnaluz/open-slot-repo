@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllBusinesses, fetchBusiness } from '../redux/business';
+import { fetchAllBusinesses } from '../redux/business';
 import BusinessCard from './Business/BusinessCard';
 
 const BusinessTest = () => {
@@ -14,15 +14,11 @@ const BusinessTest = () => {
     dispatch(fetchAllBusinesses());
   }, [dispatch]);
 
-  const test = (passedInData) => {
-    dispatch(fetchBusiness(passedInData.id));
-  };
-
   return (
     <div>
       {allBusinesses.map((business) => {
         return (
-          <div key={business.id} onClick={() => test(business)}>
+          <div key={business.id}>
             <BusinessCard
               key={business.id}
               id={business.id}
