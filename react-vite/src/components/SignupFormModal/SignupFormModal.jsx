@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { thunkSignup } from "../../redux/session";
-import "./SignupForm.css";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
+import { thunkSignup } from '../../redux/session';
+import styles from './SignupFormModal.module.css';
 
 function SignupFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -19,7 +19,7 @@ function SignupFormModal() {
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+          'Confirm Password field must be the same as the Password field',
       });
     }
 
@@ -39,53 +39,61 @@ function SignupFormModal() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
+    <div className={styles.signupFormContainer}>
+      <h1 className={styles.signupHeader}>Sign Up</h1>
+      {errors.server && <p className={styles.error}>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
-        <label>
+        <label className={styles.label}>
           Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.input}
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
+        {errors.email && <p className={styles.error}>{errors.email}</p>}
+        <label className={styles.label}>
           Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className={styles.input}
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
+        {errors.username && <p className={styles.error}>{errors.username}</p>}
+        <label className={styles.label}>
           Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={styles.input}
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
+        {errors.password && <p className={styles.error}>{errors.password}</p>}
+        <label className={styles.label}>
           Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            className={styles.input}
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        {errors.confirmPassword && (
+          <p className={styles.error}>{errors.confirmPassword}</p>
+        )}
+        <button type="submit" className={styles.submitButton}>
+          Sign Up
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

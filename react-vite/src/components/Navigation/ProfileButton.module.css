@@ -1,0 +1,83 @@
+.profileContainer {
+  position: relative;
+}
+
+.profileButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #333;
+  margin-right: 40px;
+}
+
+.profileButton:hover .icon {
+  color: #007bff;
+}
+
+.icon {
+  font-size: 1.8rem;
+  transition: color 0.3s ease;
+}
+
+.profileDropdown {
+  position: absolute;
+  top: 100%;
+  right: 40px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  text-align: left;
+  z-index: 10;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profileDropdown li {
+  padding: 8px 12px;
+  color: #333;
+}
+
+.profileDropdown li:not(.greetingMessage):hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+.openModalItem {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.openModalItem:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 8px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #e0e0e0;
+}
+
+.greetingMessage {
+  cursor: default;
+  padding: 8px 12px;
+  color: #333;
+  background-color: transparent;
+}
+
+.greetingMessage:hover {
+  background-color: transparent;
+  color: #333;
+}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import styles from './BusinessCard.module.css';
 
 const BusinessCard = ({
   id,
@@ -10,20 +11,19 @@ const BusinessCard = ({
   state,
 }) => {
   return (
-    <div>
-      <Link
-        key={id}
-        to={`/business/${id}`}
-        style={{ textDecoration: 'none', color: 'inherit' }}
-      >
-        <div>{name}</div>
-        <div>
-          <div>{address}</div>
-          <div>{city}</div>
-          <div>{state}</div>
+    <div className={styles.businessCard}>
+      <Link key={id} to={`/business/${id}`} className={styles.businessCardLink}>
+        <img src={image_url} alt={name} className={styles.businessCardImage} />
+        <div className={styles.businessCardContent}>
+          <h3 className={styles.businessCardTitle}>{name}</h3>
+          <p className={styles.businessCardDescription}>{description}</p>
+          <div className={styles.businessCardLocation}>
+            <p>{address}</p>
+            <p>
+              {city}, {state}
+            </p>
+          </div>
         </div>
-        <div>{description}</div>
-        <img src={image_url}></img>
       </Link>
     </div>
   );

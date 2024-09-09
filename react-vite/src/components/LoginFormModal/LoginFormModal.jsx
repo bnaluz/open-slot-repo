@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { thunkLogin } from "../../redux/session";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import "./LoginForm.css";
+import { useState } from 'react';
+import { thunkLogin } from '../../redux/session';
+import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
+import styles from './LoginFormModal.module.css';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -29,32 +29,36 @@ function LoginFormModal() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className={styles.loginFormContainer}>
+      <h1 className={styles.loginHeader}>Log In</h1>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <label className={styles.label}>
           Email
           <input
+            className={styles.input}
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
+        {errors.email && <p className={styles.error}>{errors.email}</p>}
+        <label className={styles.label}>
           Password
           <input
+            className={styles.input}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        {errors.password && <p className={styles.error}>{errors.password}</p>}
+        <button className={styles.submitButton} type="submit">
+          Log In
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 
