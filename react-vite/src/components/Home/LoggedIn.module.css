@@ -1,0 +1,91 @@
+.loggedInContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 50px;
+}
+
+.loggedInContainer h1 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.loggedInContainer p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dashboardLink,
+.dashboardButton {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dashboardLink:hover,
+.dashboardButton:hover {
+  background-color: #0056b3;
+}
+
+.comingSoonModal {
+  padding: 20px;
+  text-align: center;
+}
+
+.comingSoonModal h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.comingSoonModal p {
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .loggedInContainer {
+    padding: 15px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboardLink,
+  .dashboardButton {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .loggedInContainer h1 {
+    font-size: 1.5rem;
+  }
+
+  .loggedInContainer p {
+    font-size: 1rem;
+  }
+}

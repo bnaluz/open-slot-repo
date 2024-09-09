@@ -1,0 +1,48 @@
+.businessCard {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 20px;
+  text-align: left;
+}
+
+.businessCard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.businessCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.businessCardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.businessCardContent {
+  padding: 15px;
+}
+
+.businessCardTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.businessCardDescription {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.businessCardLocation {
+  font-size: 12px;
+  color: #888;
+}

@@ -13,6 +13,7 @@ import {
   deleteService,
   updateService,
 } from '../redux/service';
+import styles from './BusinessPage.module.css';
 
 const BusinessPage = () => {
   const user = useSelector((state) => state.session.user);
@@ -88,6 +89,7 @@ const BusinessPage = () => {
         image_url: imageUrl,
       };
       dispatch(updateBusiness(business.id, updatedData));
+      setIsEditing(false);
     }
   };
 
@@ -143,227 +145,253 @@ const BusinessPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.businessPageContainer}>
+      <div className={styles.businessHeader}>
+        <div className={styles.businessInfo}>
+          <h1>{business.name}</h1>
+          <p>{business.description}</p>
+          <p>
+            {business.address}, {business.city}, {business.state}
+          </p>
+        </div>
+        <img
+          src={business.image_url}
+          className={styles.businessImage}
+          alt="Business"
+        />
+      </div>
+
       {business.owner_id === user?.id && (
-        <button onClick={toggleEdit}>EDIT ME</button>
+        <div className={styles.buttonGroup}>
+          <button className={styles.editBtn} onClick={toggleEdit}>
+            Edit Business
+          </button>
+          <button className={styles.addServiceBtn} onClick={toggleAddService}>
+            Add Service
+          </button>
+          <button className={styles.deleteBtn} onClick={handleDeleteBusiness}>
+            Delete Business
+          </button>
+        </div>
       )}
 
-      <h1>BusinessPage</h1>
-      <button onClick={handleDeleteBusiness}>DELETE TESTER</button>
-      {business.owner_id === user?.id && (
-        <button onClick={toggleAddService}>ADD SERVICE</button>
-      )}
       {isAddingService && (
-        <div>
-          <h3>Add a new service to your business!</h3>
+        <div className={styles.addServiceForm}>
+          <h3>Add a new service to your business</h3>
           <div>
-            <div>
-              <label>Service Name</label>
-              <input
-                type="text"
-                value={newService.name}
-                onChange={(e) =>
-                  setNewService({ ...newService, name: e.target.value })
-                }
-                placeholder="name"
-                style={{ paddingBottom: '50px' }}
-              ></input>
-              {serviceErrors.name && (
-                <div style={{ color: 'red' }}>{serviceErrors.name}</div>
-              )}
-            </div>
-            <div>
-              <label>Service Description</label>
-              <input
-                type="text"
-                value={newService.description}
-                onChange={(e) =>
-                  setNewService({
-                    ...newService,
-                    description: e.target.value,
-                  })
-                }
-                placeholder="description"
-              ></input>
-              {serviceErrors.description && (
-                <div style={{ color: 'red' }}>{serviceErrors.description}</div>
-              )}
-            </div>
-            <div>
-              <label>Service Duration</label>
-              <input
-                type="number"
-                value={newService.duration}
-                onChange={(e) =>
-                  setNewService({ ...newService, duration: e.target.value })
-                }
-                placeholder="in minutes"
-              ></input>
-              {serviceErrors.duration && (
-                <div style={{ color: 'red' }}>{serviceErrors.duration}</div>
-              )}
-            </div>
+            <label>Service Name</label>
+            <input
+              type="text"
+              value={newService.name}
+              onChange={(e) =>
+                setNewService({ ...newService, name: e.target.value })
+              }
+              placeholder="Service Name"
+            />
+            {serviceErrors.name && (
+              <div className={styles.errorMessage}>{serviceErrors.name}</div>
+            )}
           </div>
-          <button onClick={handleAddServiceSubmit}>Save Service</button>
-          <button onClick={() => setIsAddingService(false)}>Cancel</button>
-        </div>
-      )}
-      <img src={business.image_url}></img>
-      {isEditing ? (
-        <div>
-          <label>New Image URL</label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="Image URL"
-          ></input>
-          {errors.image && <div style={{ color: 'red' }}>{errors.image}</div>}
-        </div>
-      ) : (
-        <></>
-      )}
-      {isEditing ? (
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-            placeholder="Business Name"
-          ></input>
-          {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
-        </div>
-      ) : (
-        <div>{business.name}</div>
-      )}
-      {isEditing ? (
-        <div>
-          <label>Address</label>
-          <input
-            type="text"
-            onChange={(e) => setAddress(e.target.value)}
-            value={address}
-            placeholder="Business Address"
-          ></input>
-          {errors.address && (
-            <div style={{ color: 'red' }}>{errors.address}</div>
-          )}
-        </div>
-      ) : (
-        <div>{business.address}</div>
-      )}
-
-      {isEditing ? (
-        <div>
-          <label>City</label>
-          <input
-            type="text"
-            onChange={(e) => setCity(e.target.value)}
-            value={city}
-            placeholder="City"
-          ></input>
-          {errors.city && <div style={{ color: 'red' }}>{errors.city}</div>}
-        </div>
-      ) : (
-        <div>{business.city}</div>
-      )}
-
-      {isEditing ? (
-        <div>
-          <label>State</label>
-          <input
-            type="text"
-            onChange={(e) => setState(e.target.value)}
-            value={state}
-            placeholder="State"
-          ></input>
-          {errors.state && <div style={{ color: 'red' }}>{errors.state}</div>}
-        </div>
-      ) : (
-        <div>{business.state}</div>
-      )}
-      {isEditing ? (
-        <div>
-          <label>Description</label>
-          <input
-            type="text"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            placeholder="Description"
-          ></input>
-          {errors.description && (
-            <div style={{ color: 'red' }}>{errors.description}</div>
-          )}
-        </div>
-      ) : (
-        <div>{business.description}</div>
-      )}
-      {isEditing ? <button onClick={handleEditSubmit}>SAVE</button> : <></>}
-
-      <h2>Services Offered</h2>
-      {businessServices.length > 0 ? (
-        businessServices.map((service) => (
-          <div key={service.id}>
-            {serviceEditing === service.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={serviceData.name}
-                  onChange={(e) =>
-                    setServiceData({ ...serviceData, name: e.target.value })
-                  }
-                  placeholder="Service Name"
-                />
-                <input
-                  type="text"
-                  value={serviceData.description}
-                  onChange={(e) =>
-                    setServiceData({
-                      ...serviceData,
-                      description: e.target.value,
-                    })
-                  }
-                  placeholder="Service Description"
-                />
-                <input
-                  type="number"
-                  value={serviceData.duration}
-                  onChange={(e) =>
-                    setServiceData({
-                      ...serviceData,
-                      duration: e.target.value,
-                    })
-                  }
-                  placeholder="Service Duration"
-                />
-                <button onClick={() => handleEditServiceSubmit(service.id)}>
-                  Save
-                </button>
-                <button onClick={() => setServiceEditing(null)}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                <h3>{service.name}</h3>
-                <p>{service.description}</p>
-                <p>Duration: {service.duration} minutes</p>
-                {user?.id === business.owner_id && (
-                  <>
-                    <button onClick={() => handleEditService(service)}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleDeleteService(service.id)}>
-                      Delete
-                    </button>
-                  </>
-                )}
+          <div>
+            <label>Service Description</label>
+            <input
+              type="text"
+              value={newService.description}
+              onChange={(e) =>
+                setNewService({ ...newService, description: e.target.value })
+              }
+              placeholder="Service Description"
+            />
+            {serviceErrors.description && (
+              <div className={styles.errorMessage}>
+                {serviceErrors.description}
               </div>
             )}
           </div>
-        ))
-      ) : (
-        <p>No services available for this business.</p>
+          <div>
+            <label>Service Duration</label>
+            <input
+              type="number"
+              value={newService.duration}
+              onChange={(e) =>
+                setNewService({ ...newService, duration: e.target.value })
+              }
+              placeholder="Duration (minutes)"
+            />
+            {serviceErrors.duration && (
+              <div className={styles.errorMessage}>
+                {serviceErrors.duration}
+              </div>
+            )}
+          </div>
+          <button className={styles.saveBtn} onClick={handleAddServiceSubmit}>
+            Save Service
+          </button>
+          <button
+            className={styles.cancelBtn}
+            onClick={() => setIsAddingService(false)}
+          >
+            Cancel
+          </button>
+        </div>
       )}
+
+      {isEditing && (
+        <div className={styles.businessInfoForm}>
+          <div>
+            <label>New Image URL</label>
+            <input
+              type="text"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="Image URL"
+              className={styles.inputField}
+            />
+            {errors.image && (
+              <div className={styles.errorMessage}>{errors.image}</div>
+            )}
+          </div>
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              placeholder="Business Name"
+              className={styles.inputField}
+            />
+            {errors.name && (
+              <div className={styles.errorMessage}>{errors.name}</div>
+            )}
+          </div>
+          <div>
+            <label>Address</label>
+            <input
+              type="text"
+              onChange={(e) => setAddress(e.target.value)}
+              value={address}
+              placeholder="Business Address"
+              className={styles.inputField}
+            />
+            {errors.address && (
+              <div className={styles.errorMessage}>{errors.address}</div>
+            )}
+          </div>
+          <div>
+            <label>City</label>
+            <input
+              type="text"
+              onChange={(e) => setCity(e.target.value)}
+              value={city}
+              placeholder="City"
+              className={styles.inputField}
+            />
+            {errors.city && (
+              <div className={styles.errorMessage}>{errors.city}</div>
+            )}
+          </div>
+          <div>
+            <label>State</label>
+            <input
+              type="text"
+              onChange={(e) => setState(e.target.value)}
+              value={state}
+              placeholder="State"
+              className={styles.inputField}
+            />
+            {errors.state && (
+              <div className={styles.errorMessage}>{errors.state}</div>
+            )}
+          </div>
+          <div>
+            <label>Description</label>
+            <input
+              type="text"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              placeholder="Description"
+              className={styles.inputField}
+            />
+            {errors.description && (
+              <div className={styles.errorMessage}>{errors.description}</div>
+            )}
+          </div>
+          <button className={styles.saveBtn} onClick={handleEditSubmit}>
+            Save Changes
+          </button>
+        </div>
+      )}
+
+      <h2>Services Offered</h2>
+      <div className={styles.servicesSection}>
+        {businessServices.length > 0 ? (
+          businessServices.map((service) => (
+            <div key={service.id} className={styles.serviceCard}>
+              {serviceEditing === service.id ? (
+                <div>
+                  <input
+                    type="text"
+                    value={serviceData.name}
+                    onChange={(e) =>
+                      setServiceData({ ...serviceData, name: e.target.value })
+                    }
+                    placeholder="Service Name"
+                  />
+                  <input
+                    type="text"
+                    value={serviceData.description}
+                    onChange={(e) =>
+                      setServiceData({
+                        ...serviceData,
+                        description: e.target.value,
+                      })
+                    }
+                    placeholder="Service Description"
+                  />
+                  <input
+                    type="number"
+                    value={serviceData.duration}
+                    onChange={(e) =>
+                      setServiceData({
+                        ...serviceData,
+                        duration: e.target.value,
+                      })
+                    }
+                    placeholder="Service Duration"
+                  />
+                  <button onClick={() => handleEditServiceSubmit(service.id)}>
+                    Save
+                  </button>
+                  <button onClick={() => setServiceEditing(null)}>
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <h3>{service.name}</h3>
+                  <p>{service.description}</p>
+                  <p>Duration: {service.duration} minutes</p>
+                  {user?.id === business.owner_id && (
+                    <div className={styles.serviceActionBtns}>
+                      <button onClick={() => handleEditService(service)}>
+                        Edit
+                      </button>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => handleDeleteService(service.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No services available for this business.</p>
+        )}
+      </div>
     </div>
   );
 };
