@@ -48,6 +48,7 @@ const BusinessPage = () => {
 
   const [errors, setErrors] = useState({});
   const [serviceErrors, setServiceErrors] = useState({});
+  const [serviceEditErrors, setServiceEditErrors] = useState({});
 
   useEffect(() => {
     dispatch(fetchBusiness(id));
@@ -112,11 +113,30 @@ const BusinessPage = () => {
   };
 
   const handleEditServiceSubmit = (serviceId) => {
+    const errors = {};
+
+    if (!serviceData.name.trim()) {
+      errors.name = 'Please add a service name.';
+    }
+    if (!serviceData.description.trim()) {
+      errors.description = 'Please add a service description.';
+    }
+    if (!serviceData.duration || serviceData.duration <= 0) {
+      errors.duration = 'Please add a valid service duration.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setServiceEditErrors(errors);
+      return;
+    }
+
     const updatedServiceData = {
       ...serviceData,
     };
+
     dispatch(updateService(serviceId, updatedServiceData));
     setServiceEditing(null);
+    setServiceEditErrors({});
   };
 
   const toggleAddService = () => {
@@ -328,7 +348,7 @@ const BusinessPage = () => {
           businessServices.map((service) => (
             <div key={service.id} className={styles.serviceCard}>
               {serviceEditing === service.id ? (
-                <div>
+                <div className={styles.editServiceForm}>
                   <input
                     type="text"
                     value={serviceData.name}
@@ -336,7 +356,14 @@ const BusinessPage = () => {
                       setServiceData({ ...serviceData, name: e.target.value })
                     }
                     placeholder="Service Name"
+                    className={styles.inputField}
                   />
+                  {serviceEditErrors.name && (
+                    <div className={styles.errorMessage}>
+                      {serviceEditErrors.name}
+                    </div>
+                  )}
+
                   <input
                     type="text"
                     value={serviceData.description}
@@ -347,7 +374,14 @@ const BusinessPage = () => {
                       })
                     }
                     placeholder="Service Description"
+                    className={styles.inputField}
                   />
+                  {serviceEditErrors.description && (
+                    <div className={styles.errorMessage}>
+                      {serviceEditErrors.description}
+                    </div>
+                  )}
+
                   <input
                     type="number"
                     value={serviceData.duration}
@@ -357,14 +391,29 @@ const BusinessPage = () => {
                         duration: e.target.value,
                       })
                     }
-                    placeholder="Service Duration"
+                    placeholder="Service Duration (minutes)"
+                    className={styles.inputField}
                   />
-                  <button onClick={() => handleEditServiceSubmit(service.id)}>
-                    Save
-                  </button>
-                  <button onClick={() => setServiceEditing(null)}>
-                    Cancel
-                  </button>
+                  {serviceEditErrors.duration && (
+                    <div className={styles.errorMessage}>
+                      {serviceEditErrors.duration}
+                    </div>
+                  )}
+
+                  <div className={styles.serviceActionBtns}>
+                    <button
+                      onClick={() => handleEditServiceSubmit(service.id)}
+                      className={styles.saveBtn}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setServiceEditing(null)}
+                      className={styles.cancelBtn}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
