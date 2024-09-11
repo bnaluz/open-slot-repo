@@ -22,7 +22,7 @@ const LoggedIn = () => {
         {`We're glad to have you here. You can manage your businesses and services
         below.`}
       </p>
-      <div className={styles.buttonContainer}>
+      <div className={styles.buttonGrid}>
         <Link to="/business/all" className={styles.dashboardLink}>
           Explore All Businesses
         </Link>
