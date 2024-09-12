@@ -49,7 +49,11 @@ export const fetchAllServices = (id) => async (dispatch) => {
       throw new Error('Failed to fetch services');
     }
     const services = await response.json();
-    dispatch(setAllServices(services));
+    if (services.length === 0) {
+      dispatch(setAllServices([]));
+    } else {
+      dispatch(setAllServices(services));
+    }
   } catch (error) {
     console.error('Error', error);
   }
@@ -129,9 +133,11 @@ const serviceReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SERVICES: {
       const all = {};
-      action.payload.forEach((service) => {
-        all[service.id] = service;
-      });
+      if (action.payload && action.payload.length > 0) {
+        action.payload.forEach((service) => {
+          all[service.id] = service;
+        });
+      }
       return {
         ...state,
         allServices: { ...all },
